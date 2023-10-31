@@ -7,12 +7,20 @@ import {Heros} from "./layouts/HomePage/components/Heros";
 import {LibraryServices} from "./layouts/HomePage/components/LibraryServices";
 import {Footer} from "./layouts/NavbarAndFooter/Footer";
 import {HomePage} from "./layouts/HomePage/HomePage";
+import {SearchBooksPage} from "./layouts/SearchBookPage/SearchBookPages";
+import {Route, Routes, Navigate} from "react-router-dom";
 
 function App() {
     return (
-        <div>
+        <div className='d-flex flex-column min-vh-100'>
             <Navbar/>
-            <HomePage/>
+            <div className='flex-grow-1'>
+            <Routes>
+                <Route path='*' element={<Navigate to='/' />} />
+                <Route path='/' element=<HomePage/>/>
+                <Route path='/search' element=<SearchBooksPage/>/>
+            </Routes>
+            </div>
             <Footer/>
         </div>
     );
