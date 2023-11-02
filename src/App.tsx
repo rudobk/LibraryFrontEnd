@@ -11,6 +11,7 @@ import {SearchBooksPage} from "./layouts/SearchBookPage/SearchBookPages";
 import {Route, Routes, Navigate} from "react-router-dom";
 import {LoginPage} from "./layouts/AuthPage/LoginPage";
 import {RegisterPage} from "./layouts/AuthPage/RegisterPage";
+import {BookCheckoutPage} from "./layouts/BookCheckoutPage/BookCheckoutPage";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path='/search' element=<SearchBooksPage/>/>
                 <Route path='/login' element=<LoginPage/>/>
                 <Route path='/register' element=<RegisterPage/>/>
+                <Route path='/checkout/:bookId' element=<BookCheckoutPage/>/>
             </Routes>
             </div>
             <Footer/>
