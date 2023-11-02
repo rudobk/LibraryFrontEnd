@@ -9,6 +9,8 @@ import {Footer} from "./layouts/NavbarAndFooter/Footer";
 import {HomePage} from "./layouts/HomePage/HomePage";
 import {SearchBooksPage} from "./layouts/SearchBookPage/SearchBookPages";
 import {Route, Routes, Navigate} from "react-router-dom";
+import {LoginPage} from "./layouts/AuthPage/LoginPage";
+import {RegisterPage} from "./layouts/AuthPage/RegisterPage";
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                 <Route path='*' element={<Navigate to='/' />} />
                 <Route path='/' element=<HomePage/>/>
                 <Route path='/search' element=<SearchBooksPage/>/>
+                <Route path='/login' element=<LoginPage/>/>
+                <Route path='/register' element=<RegisterPage/>/>
             </Routes>
             </div>
             <Footer/>

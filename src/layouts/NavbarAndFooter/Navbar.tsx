@@ -1,7 +1,24 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {NavLink} from "react-router-dom";
-
+import {getCurrentUser, logout} from "../../auth/AuthService";
+import IUser from "../../models/UserModel";
 export const Navbar = () => {
+    const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
+
+    useEffect(() => {
+        const user = getCurrentUser();
+
+
+        if (user) {
+            setCurrentUser(user);
+        }
+    }, []);
+
+    const logOut = () => {
+        logout();
+        setCurrentUser(undefined);
+    };
+
     return (
         <nav className='navbar navbar-expand-lg navbar-dark main-color py-3'>
             <div className='container-fluid'>
@@ -26,11 +43,34 @@ export const Navbar = () => {
                             <NavLink className='nav-link' to='/search'>Search Books</NavLink>
                         </li>
                     </ul>
-                    <ul className='navbar-nav ms-auto'>
-                        <li className='nav-item m-1'>
-                            <a type='button' className='btn btn-outline-light' href='#'>Sign in</a>
-                        </li>
-                    </ul>
+                    {currentUser ? (
+                        <div className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <NavLink to={"/profile"} className="nav-link">
+                                    {currentUser.username}
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <a href="/login" className="nav-link" onClick={logOut}>
+                                    LogOut
+                                </a>
+                            </li>
+                        </div>
+                    ) : (
+                        <div className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <NavLink to={"/login"} className="nav-link">
+                                    Login
+                                </NavLink>
+                            </li>
+
+                            <li className="nav-item">
+                                <NavLink to={"/register"} className="nav-link">
+                                    Sign Up
+                                </NavLink>
+                            </li>
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>
