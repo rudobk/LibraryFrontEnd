@@ -1,4 +1,20 @@
+import React, {useEffect, useState} from "react";
+import IUser from "../../../models/UserModel";
+import {getCurrentUser} from "../../../auth/AuthService";
+import {Link} from "react-router-dom";
+
 export const Heros = () => {
+    const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
+
+    useEffect(() => {
+        const user = getCurrentUser();
+
+
+        if (user) {
+            setCurrentUser(user);
+        }
+    }, []);
+
     return (
         <div>
             <div className='d-none d-lg-block'>
@@ -14,9 +30,12 @@ export const Heros = () => {
                                 Whether it is to learn a new skill or grow within one,
                                 we will be able to provide the top content for you!
                             </p>
-                            <a className='btn main-color btn-lg text-white' href='#'>Sign up</a>
+                            {
+                                currentUser ? <Link className='btn main-color btn-lg text-white' to='search'>Explore top books</Link> :
+                                <Link className='btn main-color btn-lg text-white' to='register'>Sign up</Link>
+                            }
                         </div>
-                    </div>
+                    </div>Link
                 </div>
                 <div className='row g-0'>
                     <div className='col-4 col-md-4 container d-flex 
@@ -50,7 +69,10 @@ export const Heros = () => {
                                 Whether it is to learn a new skill or grow within one,
                                 we will be able to provide the top content for you!
                             </p>
-                            <a className='btn main-color btn-lg text-white' href='#'>Sign up</a>
+                            {
+                                currentUser ? <Link className='btn main-color btn-lg text-white' to='search'>Explore top books</Link> :
+                                    <Link className='btn main-color btn-lg text-white' to='register'>Sign up</Link>
+                            }
                         </div>
                     </div>
                     <div className='m-2'>

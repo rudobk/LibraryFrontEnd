@@ -5,8 +5,13 @@ import {CheckoutAndReviewBox} from "./CheckoutAndReviewBox";
 import ReviewModel from "../../models/ReviewModel";
 import {SpinnerLoading} from "../Utils/SpinnerLoading";
 import {LatestReviews} from "./LastestReviews";
+import IUser from "../../models/UserModel";
+import {getCurrentUser} from "../../auth/AuthService";
+import authHeader from "../../auth/AuthHeader";
 
 export const BookCheckoutPage = () => {
+
+    const [currentUser, setCurrentUser] = useState<IUser | undefined>(undefined);
 
     const [book, setBook] = useState<BookModel>();
     const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +21,21 @@ export const BookCheckoutPage = () => {
     const [reviews, setReviews] = useState<ReviewModel[]>([])
     const [totalStars, setTotalStars] = useState(0);
     const [isLoadingReview, setIsLoadingReview] = useState(true);
+
+    const [currentLoansCount, setCurrentLoansCount] = useState(0);
+    const [isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] = useState(true);
+    const [isCheckedOutByUser, setIsCheckedOutByUser] = useState(false);
+    const [isLoadingCheckedOutByUser, setIsLoadingCheckedOutByUser] = useState(true);
+
+    const bookId = (window.location.pathname).split('/')[2];
+
+    useEffect(() => {
+        const user = getCurrentUser();
+
+        if (user) {
+            setCurrentUser(user);
+        }
+    }, []);
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -47,7 +67,7 @@ export const BookCheckoutPage = () => {
             setIsLoading(false);
             setHttpError(error.message);
         })
-    }, []);
+    }, [isCheckedOutByUser]);
 
     useEffect(() => {
         const fetchBookReviews = async () => {
@@ -94,9 +114,73 @@ export const BookCheckoutPage = () => {
         })
     }, []);
 
-    const bookId = (window.location.pathname).split('/')[2];
+    useEffect(() => {
+        const fetchIsLoadingCurrentLoans = async () => {
+            if(currentUser){
+                const url: string = `http://localhost:8080/api/books/secured/ischeckedout/byuser?bookId=${bookId}`;
 
-    if (isLoading || isLoadingReview) {
+                const requestOptions = {
+                    method: 'GET',
+                    headers: authHeader()
+                }
+
+                const isCheckedOutResponse = await fetch(url, requestOptions);
+                if(!isCheckedOutResponse.ok) {
+                    throw new Error('Something went wrong!');
+                }
+                const isCheckedOutResponseJson = await isCheckedOutResponse.json();
+                setIsCheckedOutByUser(isCheckedOutResponseJson);
+                console.log(isCheckedOutResponseJson);
+            }
+        }
+        fetchIsLoadingCurrentLoans().catch((error: any) => {
+            setIsLoadingCheckedOutByUser(false);
+            setHttpError(error.message);
+        });
+    }, [currentUser, isCheckedOutByUser]);
+
+    useEffect(() => {
+        const fetchCurrentLoansCount = async () => {
+            if(currentUser){
+                const url: string = `http://localhost:8080/api/books/secured/currentloans/count`;
+
+                const requestOptions = {
+                    method: 'GET',
+                    headers: authHeader()
+                }
+
+                console.log(requestOptions)
+                const currentLoansCountResponse = await fetch(url, requestOptions);
+                if(!currentLoansCountResponse.ok) {
+                    throw new Error('Something went wrong!');
+                }
+                const currentLoansCountResponseJson = await currentLoansCountResponse.json();
+                console.log(currentLoansCountResponseJson)
+                setCurrentLoansCount(currentLoansCountResponseJson);
+            }
+            setIsLoadingCurrentLoansCount(false);
+        }
+        fetchCurrentLoansCount().catch((error: any) => {
+            setIsLoadingCurrentLoansCount(false);
+            setHttpError(error.message);
+        });
+    }, [currentUser, isCheckedOutByUser]);
+
+    async function handleCheckout() {
+        const url: string = `http://localhost:8080/api/books/secured/checkout?bookId=${book?.id}`;
+        const requestOptions = {
+            method: 'PUT',
+            headers: authHeader()
+        }
+        const checkoutResponse = await fetch(url, requestOptions);
+        if(!checkoutResponse.ok) {
+            throw new Error('Something went wrong!');
+        }
+
+        setIsCheckedOutByUser(true);
+    }
+
+    if (isLoading || isLoadingReview || isLoadingCurrentLoansCount) {
         return (
             <SpinnerLoading />
         )
@@ -122,7 +206,7 @@ export const BookCheckoutPage = () => {
                             <StarsReview rating={totalStars} size={32}/>
                         </div>
                     </div>
-                    <CheckoutAndReviewBox book={book} mobile={false}/>
+                    <CheckoutAndReviewBox book={book} mobile={false} currentUser={currentUser} currentLoansCount={currentLoansCount} isCheckedOut={isCheckedOutByUser} handleCheckout ={handleCheckout}/>
                 </div>
                 <hr/>
                 <LatestReviews reviews={reviews} bookId={book?.id} mobile={true}/>
@@ -144,7 +228,7 @@ export const BookCheckoutPage = () => {
                         <StarsReview rating={totalStars} size={32}/>
                     </div>
                 </div>
-                <CheckoutAndReviewBox book={book} mobile={true}/>
+                <CheckoutAndReviewBox book={book} mobile={true} currentUser={currentUser} currentLoansCount={currentLoansCount} isCheckedOut={isCheckedOutByUser} handleCheckout ={handleCheckout}/>
                 <hr/>
             </div>
         </div>
