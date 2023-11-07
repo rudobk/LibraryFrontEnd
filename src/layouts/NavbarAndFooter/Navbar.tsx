@@ -42,36 +42,41 @@ export const Navbar = () => {
                         <li className='nav-item'>
                             <NavLink className='nav-link' to='/search'>Search Books</NavLink>
                         </li>
+                        {currentUser &&
+                            <li className='nav-item'>
+                                <NavLink className='nav-link' to='/shelf'>Shelf</NavLink>
+                            </li>
+                        }
                     </ul>
-                    {currentUser ? (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <NavLink to={"/profile"} className="nav-link">
-                                    {currentUser.username}
-                                </NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <a href="/login" className="nav-link" onClick={logOut}>
-                                    LogOut
-                                </a>
-                            </li>
-                        </div>
-                    ) : (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <NavLink to={"/login"} className="nav-link">
-                                    Login
-                                </NavLink>
-                            </li>
-
-                            <li className="nav-item">
-                                <NavLink to={"/register"} className="nav-link">
-                                    Sign Up
-                                </NavLink>
-                            </li>
-                        </div>
-                    )}
                 </div>
+                {currentUser ? (
+                    <div className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <NavLink to={"/profile"} className="nav-link">
+                                {currentUser.username}
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <a href="/login" className="nav-link" onClick={logOut}>
+                                LogOut
+                            </a>
+                        </li>
+                    </div>
+                ) : (
+                    <div className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <NavLink to={"/login"} className="nav-link">
+                                Login
+                            </NavLink>
+                        </li>
+
+                        <li className="nav-item">
+                            <NavLink to={"/register"} className="nav-link">
+                                Sign Up
+                            </NavLink>
+                        </li>
+                    </div>
+                )}
             </div>
         </nav>
     );

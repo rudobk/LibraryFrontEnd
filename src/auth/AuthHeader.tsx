@@ -6,9 +6,13 @@ export default function authHeader() {
 
     if (user && user.token) {
         return {
-            Authorization: 'Bearer ' + user.token
+            Authorization: 'Bearer ' + user.token,
+            'Content-Type': 'application/json'
         };
     } else {
-        return { Authorization: ''};
+        return {
+            Authorization: '',
+            'Content-Type': 'application/json'
+        };
     }
 }

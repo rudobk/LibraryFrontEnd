@@ -12,6 +12,8 @@ import {Route, Routes, Navigate} from "react-router-dom";
 import {LoginPage} from "./layouts/AuthPage/LoginPage";
 import {RegisterPage} from "./layouts/AuthPage/RegisterPage";
 import {BookCheckoutPage} from "./layouts/BookCheckoutPage/BookCheckoutPage";
+import {ReviewListPage} from "./layouts/BookCheckoutPage/ReviewListPage/ReviewListPage";
+import {ShelfPage} from "./layouts/ShelfPage/ShelfPage";
 
 function App() {
     return (
@@ -25,6 +27,8 @@ function App() {
                 <Route path='/login' element=<LoginPage/>/>
                 <Route path='/register' element=<RegisterPage/>/>
                 <Route path='/checkout/:bookId' element=<BookCheckoutPage/>/>
+                <Route path='/reviewList/:bookId' element=<ReviewListPage/>/>
+                <Route path='/shelf' element=<ShelfPage/>/>
             </Routes>
             </div>
             <Footer/>
