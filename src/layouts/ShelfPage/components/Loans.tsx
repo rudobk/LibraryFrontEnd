@@ -29,7 +29,7 @@ export const Loans = () => {
     useEffect(() => {
         const fetchUserCurrentLoans = async () => {
             if (currentUser) {
-                const url = `http://localhost:8080/api/books/secure/currentloans`;
+                const url = `http://localhost:8080/api/books/secured/currentloans`;
                 const requestOptions = {
                     method: 'GET',
                     headers: authHeader()
@@ -67,7 +67,7 @@ export const Loans = () => {
     }
 
     async function returnBook(bookId: number) {
-        const url = `http://localhost:8080/api/books/secure/return/?bookId=${bookId}`;
+        const url = `http://localhost:8080/api/books/secured/return?bookId=${bookId}`;
         const requestOptions = {
             method: 'PUT',
             headers: authHeader()
@@ -80,7 +80,7 @@ export const Loans = () => {
     }
 
     async function renewLoan(bookId: number) {
-        const url = `http://localhost:8080/api/books/secure/renew/loan/?bookId=${bookId}`;
+        const url = `http://localhost:8080/api/books/secured/renew?bookId=${bookId}`;
         const requestOptions = {
             method: 'PUT',
             headers: authHeader()

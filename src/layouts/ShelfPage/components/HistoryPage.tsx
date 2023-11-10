@@ -5,6 +5,7 @@ import { Pagination } from '../../Utils/Pagination';
 import { SpinnerLoading } from '../../Utils/SpinnerLoading';
 import IUser from "../../../models/UserModel";
 import {getCurrentUser} from "../../../auth/AuthService";
+import authHeader from "../../../auth/AuthHeader";
 
 export const HistoryPage = () => {
 
@@ -30,12 +31,10 @@ export const HistoryPage = () => {
     useEffect(() => {
         const fetchUserHistory = async () => {
             if (currentUser) {
-                const url = `http://localhost:8080/api/histories/search/findBooksByUserEmail/?userEmail=${currentUser.username}&page=${currentPage - 1}&size=5`;
+                const url = `http://localhost:8080/api/books/secured/history?pageNo=${currentPage - 1}&pageSize=5`;
                 const requestOptions = {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: authHeader()
                 };
                 const historyResponse = await fetch(url, requestOptions);
                 if (!historyResponse.ok) {
@@ -43,8 +42,8 @@ export const HistoryPage = () => {
                 }
                 const historyResponseJson = await historyResponse.json();
 
-                setHistories(historyResponseJson._embedded.histories);
-                setTotalPages(historyResponseJson.page.totalPages);
+                setHistories(historyResponseJson.histories);
+                setTotalPages(historyResponseJson.pagination.totalPages);
             }
             setIsLoadingHistory(false);
 

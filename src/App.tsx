@@ -14,6 +14,7 @@ import {RegisterPage} from "./layouts/AuthPage/RegisterPage";
 import {BookCheckoutPage} from "./layouts/BookCheckoutPage/BookCheckoutPage";
 import {ReviewListPage} from "./layouts/BookCheckoutPage/ReviewListPage/ReviewListPage";
 import {ShelfPage} from "./layouts/ShelfPage/ShelfPage";
+import {ManageLibraryPage} from "./layouts/ManageLibraryPage/ManageLibraryPage";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path='/checkout/:bookId' element=<BookCheckoutPage/>/>
                 <Route path='/reviewList/:bookId' element=<ReviewListPage/>/>
                 <Route path='/shelf' element=<ShelfPage/>/>
+                <Route path='/admin' element=<ManageLibraryPage/>/>
             </Routes>
             </div>
             <Footer/>
