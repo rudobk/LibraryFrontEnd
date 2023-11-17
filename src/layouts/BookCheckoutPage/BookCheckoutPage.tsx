@@ -43,7 +43,7 @@ export const BookCheckoutPage = () => {
 
     useEffect(() => {
         const fetchBook = async () => {
-            const baseUrl: string = `http://localhost:8080/api/books/${bookId}`;
+            const baseUrl: string = `http://library.streetlighting.me:8080/api/books/${bookId}`;
 
             const response = await fetch(baseUrl);
 
@@ -75,7 +75,7 @@ export const BookCheckoutPage = () => {
 
     useEffect(() => {
         const fetchBookReviews = async () => {
-            const reviewUrl: string = `http://localhost:8080/api/reviews?bookId=${bookId}`;
+            const reviewUrl: string = `http://library.streetlighting.me:8080/api/reviews?bookId=${bookId}`;
 
             const responseReviews = await fetch(reviewUrl);
 
@@ -121,7 +121,7 @@ export const BookCheckoutPage = () => {
     useEffect(() => {
         const fetchIsLoadingCurrentLoans = async () => {
             if(currentUser){
-                const url: string = `http://localhost:8080/api/books/secured/ischeckedout/byuser?bookId=${bookId}`;
+                const url: string = `http://library.streetlighting.me:8080/api/books/secured/ischeckedout/byuser?bookId=${bookId}`;
 
                 const requestOptions = {
                     method: 'GET',
@@ -146,7 +146,7 @@ export const BookCheckoutPage = () => {
     useEffect(() => {
         const fetchCurrentLoansCount = async () => {
             if(currentUser){
-                const url: string = `http://localhost:8080/api/books/secured/currentloans/count`;
+                const url: string = `http://library.streetlighting.me:8080/api/books/secured/currentloans/count`;
 
                 const requestOptions = {
                     method: 'GET',
@@ -181,7 +181,7 @@ export const BookCheckoutPage = () => {
     useEffect(() => {
         const fetchUserReviewLeft = async () => {
             if(currentUser){
-                const url: string = `http://localhost:8080/api/reviews/secured/user/book?bookId=${bookId}`;
+                const url: string = `http://library.streetlighting.me:8080/api/reviews/secured/user/book?bookId=${bookId}`;
 
                 const requestOptions = {
                     method: 'GET',
@@ -203,7 +203,7 @@ export const BookCheckoutPage = () => {
         });
     }, [currentUser]);
     async function handleCheckout() {
-        const url: string = `http://localhost:8080/api/books/secured/checkout?bookId=${book?.id}`;
+        const url: string = `http://library.streetlighting.me:8080/api/books/secured/checkout?bookId=${book?.id}`;
         const requestOptions = {
             method: 'PUT',
             headers: authHeader()
@@ -223,7 +223,7 @@ export const BookCheckoutPage = () => {
         }
 
         const reviewRequest = new ReviewRequestModel(StarInput, bookId, reviewDescription);
-        const url = 'http://localhost:8080/api/reviews/secured';
+        const url = 'http://library.streetlighting.me:8080/api/reviews/secured';
         const requestOptions = {
             method: 'POST',
             headers: authHeader(),

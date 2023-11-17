@@ -42,7 +42,7 @@ export const AddNewBook = () => {
     }
 
     async function submitNewBook() {
-        const url = `http://localhost:8080/api/admin/secure/add/book`;
+        const url = `http://library.streetlighting.me:8080/api/admin/secure/add/book`;
         if (currentUser && title !== '' && author !== '' && category !== 'Category'
             && description !== '' && copies >= 0) {
             const book: AddBookRequest = new AddBookRequest(title, author, description, copies, category);

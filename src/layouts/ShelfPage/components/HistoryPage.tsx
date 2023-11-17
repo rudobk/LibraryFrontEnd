@@ -31,7 +31,7 @@ export const HistoryPage = () => {
     useEffect(() => {
         const fetchUserHistory = async () => {
             if (currentUser) {
-                const url = `http://localhost:8080/api/books/secured/history?pageNo=${currentPage - 1}&pageSize=5`;
+                const url = `http://library.streetlighting.me:8080/api/books/secured/history?pageNo=${currentPage - 1}&pageSize=5`;
                 const requestOptions = {
                     method: 'GET',
                     headers: authHeader()
