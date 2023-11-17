@@ -10,7 +10,7 @@ export const Carousel = () => {
 
     useEffect(() => {
         const fetchBooks = async () => {
-            const baseUrl:string = 'http://localhost:8080/api/books';
+            const baseUrl:string = 'http://library.streetlighting.me:8080/api/books';
 
             const fetchUrl: string = `${baseUrl}?page=0&size=9`;
 
